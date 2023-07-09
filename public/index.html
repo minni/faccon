@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <title>Faccon</title>
+    <link rel="stylesheet" type="text/css" href="css/faccon.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </header>
+  <body>
+    <a href="https://github.com/minni/faccon" style="position: fixed; right: 0px;"><img decoding="async" loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+
+    <div id="app">
+      <!-- Header -->
+      <div class="header" style="padding-top: 0px; padding-bottom: 0px;">
+        <h1>{{title}}</h1>
+      </div>
+
+      <div class="header" style="padding-top: 0px;">
+        <div class="row">
+          <div class="column" v-for="col in cols">
+            <a :href="imgPath(col, row)" target="_blank" class="img" v-for="row in rows">
+              <!-- {{col}}-{{row}}-{{imgIdx(col, row)}}<br / -->
+              <img v-if="showImage(col, row)" :src="imgPath(col, row)" style="width:100%">
+            </a>
+          </div>
+        </div>
+        <!-- Photo Grid -->
+        <!-- div class="row" v-for> 
+          <div class="column">
+            <img src="img/faccon1.jpeg" style="width:100%">
+            <img src="img/faccon2.jpeg" style="width:100%">
+            <img src="img/faccon3.jpeg" style="width:100%">
+          </div>
+          <div class="column">
+            <img src="img/faccon4.jpeg" style="width:100%">
+            <img src="img/faccon5.jpeg" style="width:100%">
+            <img src="img/faccon6.jpeg" style="width:100%">
+          </div>
+          <div class="column">
+            <img src="img/faccon7.jpeg" style="width:100%">
+            <img src="img/faccon8.jpeg" style="width:100%">
+            <img src="img/faccon9.jpeg" style="width:100%">
+          </div>
+          <div class="column">
+            <img src="img/faccon10.jpeg" style="width:100%">
+            <img src="img/faccon11.jpeg" style="width:100%">
+          </div>
+        </div -->
+      </div>
+
+      <div style="text-align: right;">
+        Basato sull'esempio
+        <a href="https://www.w3schools.com/howto/howto_css_image_grid_responsive.asp" target="_blank">w3scool</a>.
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      const { createApp } = Vue
+
+      createApp({
+        data: function() {
+          return {
+            title: 'Vivi Faccon',
+            images: 14,
+            cols: 4,
+            shuffled: [],
+          }
+        },
+        mounted: function(){
+          var arr = Array.apply(0,new Array(this.images)).map(function(_,i){ return `img/faccon${i + 1}.jpeg`;});
+          arr = arr.sort(function(a,b){
+            var tmp = Math.random();
+            if (tmp < 0.5) return 1;
+            if (tmp > 0.5) return -1;
+            return 0;
+          });
+          this.shuffled = arr;
+          console.log(arr, this.shuffled);
+        },
+        computed: {
+          rows: function(){
+            var rows = Math.floor(this.images / this.cols);
+            if (this.images % this.cols > 0) rows += 1;
+            return rows;
+          },
+        },
+        methods: {
+          imgIdx: function(col, row){
+            if (col == 1) return row;
+            return (row - 1) + this.cols * (col - 1);
+          },
+          imgPath: function(col, row){
+            // return `img/faccon${this.imgIdx(col, row)}.jpeg`;
+            return this.shuffled[this.imgIdx(col, row) - 1];
+          },
+          showImage: function(col, row){
+            if (this.imgIdx(col, row) <= this.images) return true;
+            return false;
+          },
+        },
+      }).mount('#app')
+    </script>
+  </body>
+</html>

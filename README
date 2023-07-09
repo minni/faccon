@@ -1,0 +1,11 @@
+Una galleria di photo del Buon Marco Facchin detto
+- Faccon
+- Fratello Facchin
+- Gemello del gol
+
+
+Per provare il solito
+```
+cd public
+python3 -m http.server
+```
